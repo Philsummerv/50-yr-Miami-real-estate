@@ -59,9 +59,9 @@ def main():
     gold_price = gold_price[gold_price.index >= start_date]
 
     print("Aligning and calculating ratio...")
-    # Resample to Annual Start (YS) and take mean
-    miami_hpi_annual = miami_hpi.resample('YS').mean()
-    gold_annual = gold_price.resample('YS').mean()
+    # Resample to Quarterly Start (QS) and take mean
+    miami_hpi_annual = miami_hpi.resample('QS').mean()
+    gold_annual = gold_price.resample('QS').mean()
 
     # Merge dataframes
     df = pd.merge(miami_hpi_annual, gold_annual, left_index=True, right_index=True, how='inner')
@@ -70,12 +70,17 @@ def main():
     df['HPI_in_Gold'] = df['Miami_HPI'] / df['Gold_USD']
     df.index.name = 'Year'
 
+    # Cast to float64
+    df['Miami_HPI'] = df['Miami_HPI'].astype('float64')
+    df['Gold_USD'] = df['Gold_USD'].astype('float64')
+    df['HPI_in_Gold'] = df['HPI_in_Gold'].astype('float64')
+
     # Ensure data/gold directory exists
     out_dir = os.path.join('data', 'gold')
     os.makedirs(out_dir, exist_ok=True)
 
     # Save to CSV
-    csv_path = os.path.join(out_dir, 'miami_housing_vs_gold_1976_2026.csv')
+    csv_path = os.path.join(out_dir, 'miami_housing_vs_gold_quarterly.csv')
     df.to_csv(csv_path)
     print(f"Saved CSV to {csv_path}")
 
