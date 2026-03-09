@@ -17,3 +17,6 @@ trigger: always_on
 - Handle missing values (NaNs) explicitly before generating any Plotly visualizations.
 
 ### 4. Integration Layer: A separate directory notebooks/simulator/ is authorized to read (but not move or modify) data from both /gold and /migration folders for the purpose of multi-variate synthesis and predictive modeling".
+
+
+ENV: Windows. Always use 'cmd /c' for all shell executions to ensure the process terminates correctly and sends an EOF signal..
